@@ -7,6 +7,17 @@
 This database is designed to manage and track the operations within a general hospital. It models entities such as patients, wards, nurses, consultants, and drugs. The design ensures data integrity and reflects real-world constraints such as one-to-one nurse-to-ward assignments, many-to-many consultant examinations, and drug administration tracking with timestamps.
 
 ---
+## 📖 Problem Description
+
+A General Hospital consists of a number of specialized wards. Each ward is uniquely identified by a `ward_id` and a name. The hospital system maintains records about patients, including their `patient_id`, name, and date of birth.
+
+Each ward may host one or more patients, while each patient is assigned to exactly one ward. Every patient has a single leading consultant but may also be examined by other consultants if required. A consultant, identified by a `consultant_id` and name, may be assigned to zero or more patients and may examine additional patients.
+
+The system must also record all instances where a nurse administers a drug to a patient, including the dosage, date, and time of administration. Each ward is supervised by exactly one nurse, and each nurse is responsible for supervising only one ward. A nurse must also serve in a specific ward. Nurse information includes a unique ID, name, number, and address.
+
+Drugs in the system are identified by a unique code and a recommended dosage. Each drug may be sold under multiple brand names, which must be captured in the database.
+
+---
 
 ## 📦 Entity Descriptions
 
@@ -44,6 +55,21 @@ This table tracks each instance of a drug being administered to a patient. It ca
 
 ---
 
+## 🧾 Entities and Their Attributes
+
+| Entity               | Attributes                                                                 |
+|----------------------|----------------------------------------------------------------------------|
+| **Patient**           | `patient_id`, `name`, `date_of_birth`, `ward_id`, `leading_consultant_id` |
+| **Ward**              | `ward_id`, `ward_name`, `supervisor_nurse_id`                              |
+| **Nurse**             | `nurse_id`, `number`, `nurse_name`, `nurse_address`, `ward_id`             |
+| **Consultant**        | `consultant_id`, `consultant_name`                                        |
+| **Examines**          | `patient_id`, `consultant_id`                                              |
+| **Drug**              | `code`, `recommended_dosage`                                               |
+| **Drug_Brand**        | `code`, `brand_name`                                                       |
+| **Drug_Administration** | `admin_id`, `code`, `patient_id`, `nurse_id`, `admin_dosage`, `admin_date` |
+
+---
+
 ## 🔄 Relationships Summary
 
 | Relationship                    | Type                | Description                                                                          |
@@ -56,10 +82,14 @@ This table tracks each instance of a drug being administered to a patient. It ca
 | Patient — Drug_Administration   | 1:N                 | A patient may receive many administered drugs.                                       |
 | Drug — Drug_Brand               | 1:N                 | One drug may have many brands.                                                       |
 | Drug — Drug_Administration      | 1:N                 | A drug may be administered multiple times.                                           |
+---
 
 ##  Erd diagram (conceptual desgin)
 <img width="3752" height="2649" alt="image" src="https://github.com/user-attachments/assets/c0a282f7-8110-4764-aeb3-b9c2094bb6d1" />
 
+---
 ## Tables Schema
+<img width="2700" height="1456" alt="drawSQL-image-export-2025-07-16" src="https://github.com/user-attachments/assets/8741f126-0a7a-4d97-a169-f0e370ff7434" />
+
 <img width="410" height="305" alt="Screenshot 2025-07-16 214811" src="https://github.com/user-attachments/assets/93597552-aa00-4833-b94d-637a062d0946" />
 
